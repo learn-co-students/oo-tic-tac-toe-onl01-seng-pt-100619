@@ -17,13 +17,14 @@ class TicTacToe
   end
   
   def input_to_index(input)
-    input.to_i - 1
+    puts "please provide the position by choosing a number between 1 to 9. "
+    input.to_i-1
     # binding.pry
   end
   
-  def move(index,token="X") #?
+  def move(index,token="X")
     @board[index] = token
-    @board[4] = "O"
+    # @board[4] = "O"
       # binding.pry
   end
   
@@ -31,19 +32,18 @@ class TicTacToe
     @board[index] != " " 
   end
   
-  def valid_move?(index) #?any other way to code? shorter way?
-   if !position_taken?(index) && index<9
-     true
-   else
-     false 
-   end
+  def valid_move?(index) #valid if the index(position) is within 0 to 8 and it is in fact, being empty to place your game on. 
+    index.between?(0, 8) && !position_taken?(index) #if input_to_index is between 0 to 8 AND position is empty
   end
+
   
  def turn_count
+   #counting how many game the elements on the @board has been filled 
    @board.count{|element| element != " "}
  end
  
- def current_player #Why should I know whether turn_count is even or odd? how would it help me choose whether the third round is X's turn and the 4th is O?
+ def current_player
+   #this method help us to know whether our player is X or Y 
    if turn_count % 2 == 0 
      "X"
    else
@@ -52,19 +52,86 @@ class TicTacToe
   # binding.pry
  end
  
- def turn
-   input = gets
-   index = input_to_index(input)
-    if valid_move?(index)
-      move(index)
-      current_player
-      @board
-    else
-      input = gets
-      index = input_to_index(input)
-      move(index)
-    end
-   
+  def turn
+    user_input = gets.strip
+    index = input_to_index(user_input)
+    # binding.pry
+      if valid_move?(index)
+        move(index, current_player)
+        display_board
+        # binding.pry
+      else
+        turn #call itself within its own context to run the same operation as above 
+        move(index, current_player)
+      end
   end
   
-end
+  def won?
+     WIN_COMBINATIONS.each {|win_combo|
+      index_0 = win_combo[0]
+      index_1 = win_combo[1]
+      index_2 = win_combo[2]
+  
+      position_1 = @board[index_0]
+      position_2 = @board[index_1]
+      position_3 = @board[index_2]
+
+    if position_1 == "X" && position_2 == "X" && position_3 == "X"
+      return win_combo
+    elsif position_1 == "O" && position_2 == "O" && position_3 == "O"
+      return win_combo
+    end
+    }
+    return false
+  end
+  
+  
+  def full?
+    @board.all? {|index| index == "X" || index == "O"}
+  end
+  
+  def draw?
+    if full? && !won?
+      true 
+    else
+      false
+    end
+  end
+  
+  def over?
+    if won? || full?
+      true
+    else
+      false
+    end
+  end
+    
+    
+  def winner #?
+    index = []
+    index = won?
+    # binding.pry
+    if index == false
+      return nil
+    else
+      if @board[index[0]] == "X"
+        return "X"
+      else
+        return "O"
+      end
+    end
+  end
+  
+  def play
+    until over? == true
+      turn
+    end
+
+    if won?
+      puts "Congratulations #{winner}!"
+    elsif draw?
+      puts "Cat's Game!"
+    end
+  end
+  
+end  
