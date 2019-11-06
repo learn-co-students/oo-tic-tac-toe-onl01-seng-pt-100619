@@ -74,11 +74,8 @@ class TicTacToe
     
     def valid_move?(position)
       #returns true if the move is valid and false or nil if not
-    if position.to_i.between?(0,8) && !position_taken?(position)
-      true
-      else 
-        false
-      end
+    position.to_i.between?(0,8) && !position_taken?(position)
+      
     end
     
     
