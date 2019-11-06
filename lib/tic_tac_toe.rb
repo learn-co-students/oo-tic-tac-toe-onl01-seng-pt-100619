@@ -123,10 +123,8 @@ class TicTacToe
       display_board
     else 
     #ask for input again
-      puts "Please enter 1-9:"
-      move(index, current_player)
+      turn
     end
-    user_input
     end
     
     
