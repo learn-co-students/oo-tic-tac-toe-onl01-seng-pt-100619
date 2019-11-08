@@ -1,3 +1,4 @@
+require 'pry'
 class TicTacToe
   
   def initialize
@@ -9,12 +10,10 @@ class TicTacToe
   end
   
   WIN_COMBINATIONS = [
-    #is a constant equal to a nested array 
-    #filled with index values for the various winning combinations possible
     
-    [0,1,2], #toprow
-    [3,4,5], #middle
-    [6,7,8],  #bottom
+    [0,1,2],
+    [3,4,5],
+    [6,7,8],
     [0,3,6],
     [1,4,7],
     [2,5,8],
@@ -124,5 +123,19 @@ class TicTacToe
     end
     end
     
+    def won? 
+      is_won = false 
+      
+      WIN_COMBINATIONS.any? do |combo| 
+        # binding.pry
+        
+        if @board[combo[0]] == "X" && @board[combo[1]] == "X" && @board[combo[2]] == "X"
+          is_won = combo
+        elsif @board[combo[0]] == "O" && @board[combo[1]] == "O" && @board[combo[2]] == "O"
+          is_won = combo 
+        end
+      end
+      is_won
+    end
     
 end
