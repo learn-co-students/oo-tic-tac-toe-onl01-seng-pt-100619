@@ -29,8 +29,8 @@ class TicTacToe
 
    def move(index, token = "X")
 
-     @board[4] = "O"
-     @board[0] = "X"
+     @board[index] = token
+
 
    end
 
@@ -41,26 +41,40 @@ class TicTacToe
 
 
    def valid_move?(index)
-     @board[index] == " "
+     @board[index] == " " && index.between?(0, 8)
 
    end
 
 
   def turn
+    puts "Please select a number one through nine"
+    input = gets.strip
+    index = input_to_index(input)
+    if valid_move?(index)
+      token = current_player
+      move(index, token)
+    else
+      turn
+    end
+    display_board
 
   end
 
 
 
-  def turn_count(board)
-  board.count{|token| token == "X" || token == "O"}
+  def turn_count
+  @board.count{|token| token == "X" || token == "O"}
   end
 
 
-  def current_player(board)
-  turn_count(board) % 2 == 0 ? "X" : "O"
+  def current_player
+  turn_count % 2 == 0 ? "X" : "O"
   end
 
+
+def won
+
+end
 
 
 
