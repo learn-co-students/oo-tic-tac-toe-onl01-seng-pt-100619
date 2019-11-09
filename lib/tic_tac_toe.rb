@@ -93,7 +93,6 @@ def over?
 end
 
 def winner
-
   if won?
     winning_combo = won?
     w = @board[winning_combo[0]]
@@ -102,7 +101,19 @@ def winner
 nil
 end
 
+def play
 
+  until over?
+    turn
+  end
+
+  if won?
+    puts "Congratulations #{winner}!"
+  else
+    puts "Cat's Game!"
+  end
+
+end
 
 
 
