@@ -1,3 +1,5 @@
+require 'pry'
+
 class TicTacToe
 
   WIN_COMBINATIONS = [
@@ -28,21 +30,16 @@ class TicTacToe
    end
 
    def move(index, token = "X")
-
      @board[index] = token
-
-
    end
 
    def position_taken?(index)
      @board[index] != " "
-
    end
 
 
    def valid_move?(index)
      @board[index] == " " && index.between?(0, 8)
-
    end
 
 
@@ -57,7 +54,6 @@ class TicTacToe
       turn
     end
     display_board
-
   end
 
 
@@ -72,13 +68,39 @@ class TicTacToe
   end
 
 
-def won
+  def won?
+    WIN_COMBINATIONS.any? do |combo|
 
+    if @board[combo[0]] == "X" && @board[combo[1]] == "X" && @board[combo[2]] == "X"
+      return combo
+    elsif @board[combo[0]] == "O" && @board[combo[1]] == "O" && @board[combo[2]] == "O"
+      return combo
+
+    end
+  end
 end
 
+  def full?
+    @board.all? {|token| token == "X" || token == "O"}
+  end
 
+  def draw?
+     @board.all? {|token| token == "X" || token == "O"} && !won?
+end
 
+def over?
+  won? || draw?
+end
 
+def winner
+
+  if won?
+    winning_combo = won?
+    w = @board[winning_combo[0]]
+    return w
+  end
+nil
+end
 
 
 
