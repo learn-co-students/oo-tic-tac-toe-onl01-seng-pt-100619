@@ -118,7 +118,6 @@ class TicTacToe
       move(index, current_player)
       display_board
     else 
-    #ask for input again
       turn
     end
     end
@@ -127,7 +126,6 @@ class TicTacToe
       is_won = false 
       
       WIN_COMBINATIONS.any? do |combo| 
-        # binding.pry
         
         if @board[combo[0]] == "X" && @board[combo[1]] == "X" && @board[combo[2]] == "X"
           is_won = combo
@@ -138,4 +136,53 @@ class TicTacToe
       is_won
     end
     
+    def full?
+      @board.each do |token|
+        if token == "X" || token == "O"
+        else
+          return false
+        end
+      end
+    end
+    
+    def draw?
+      @board.each do |token|
+        if token == "X" || token == "O" && !won?
+        else
+          return false
+        end
+      end
+    end
+  
+  def over?
+    @board.each do |token|
+        if won? || full?
+        else
+          return false
+        end
+      end
+  end
+  
+  def winner
+  if won?
+    winning_combo = won?
+    w = @board[winning_combo[0]]
+    return w
+  end
+  nil
+  end
+
+
+  def play
+  until over?
+    turn
+  end
+  if won?
+    puts "Congratulations #{winner}!"
+  else
+    puts "Cat's Game!"
+  end
+  end
+  
 end
+  
