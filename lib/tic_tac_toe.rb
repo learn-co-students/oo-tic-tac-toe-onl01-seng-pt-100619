@@ -77,21 +77,6 @@ class TicTacToe
       
     end
     
-    
-    def turn_count #counts occupied positions
-    #returns number of turns that have been played
-    #based on the board variable
-    
-    counter = 0
-    @board.each do |token|
-      if token == "X" || token == "O"
-      counter += 1
-      end 
-    end
-    counter
-    end
-    
-    
     def current_player
       if turn_count % 2 == 0
         "X"
@@ -100,27 +85,61 @@ class TicTacToe
       end
     end
     
-    
     def turn
-    # receives user input via the gets method
-    # calls #input_to_index, #valid_move?, and #current_player
-    # makes valid moves and displays the board
-    # asks for input again after a failed validation
-    
-    
-    puts "Please enter 1-9:"
-    user_input = gets.strip
-    index = input_to_index(user_input)
-    
-    #if index valid.. make a move for index.
-    #show the board
-    if valid_move?(index)
-      move(index, current_player)
+      puts "Please select a number one through nine"
+      input = gets.strip
+      index = input_to_index(input)
+      if valid_move?(index)
+        token = current_player
+        move(index, token)
+      else
+        turn
+      end
       display_board
-    else 
-      turn
     end
+    
+  
+    
+    # def turn
+    # # receives user input via the gets method
+    # # calls #input_to_index, #valid_move?, and #current_player
+    # # makes valid moves and displays the board
+    # # asks for input again after a failed validation
+    
+    
+    # puts "Please enter 1-9:"
+    # user_input = gets.strip
+    # index = input_to_index(user_input)
+    
+    # #if index valid.. make a move for index.
+    # #show the board
+    # if valid_move?(index)
+    #   move(index, current_player)
+    #   display_board
+    # else 
+    #   turn
+    # end
+    # end
+    
+    def turn_count
+    @board.count{|token| token == "X" || token == "O"}
     end
+    def current_player
+    turn_count % 2 == 0 ? "X" : "O"
+    end
+    
+    # def turn_count #counts occupied positions
+    # #returns number of turns that have been played
+    # #based on the board variable
+    
+    # counter = 0
+    # @board.each do |token|
+    #   if token == "X" || token == "O"
+    #   counter += 1
+    #   end 
+    # end
+    # counter
+    # end
     
     def won? 
       is_won = false 
